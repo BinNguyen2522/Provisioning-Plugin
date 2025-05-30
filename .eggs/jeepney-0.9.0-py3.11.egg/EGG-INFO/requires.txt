@@ -1,0 +1,10 @@
+
+[test]
+pytest
+pytest-trio
+pytest-asyncio>=0.17
+testpath
+trio
+
+[trio]
+trio

@@ -1,0 +1,1 @@
+default_app_config = 'provisioning_plugin.apps.ProvisioningPluginConfig'

@@ -1,0 +1,4 @@
+include README.md
+# include LICENSE  # Bỏ comment nếu bạn có file LICENSE
+# recursive-include provisioning_plugin/templates * # Nếu plugin có templates HTML
+# recursive-include provisioning_plugin/static * # Nếu plugin có static files (CSS, JS, images)

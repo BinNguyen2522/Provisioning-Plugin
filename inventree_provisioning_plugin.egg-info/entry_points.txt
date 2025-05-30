@@ -1,0 +1,2 @@
+[inventree_plugins]
+ProvisioningPlugin = provisioning_plugin.ProvisioningPlugin:ProvisioningPlugin
