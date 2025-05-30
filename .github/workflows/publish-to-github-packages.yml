@@ -52,19 +52,19 @@ jobs:
         # TWINE_USERNAME: Tên người dùng để xác thực với package registry.
         # ${{ github.actor }} là biến môi trường của GitHub Actions, chứa tên người dùng
         # hoặc tên bot đã kích hoạt workflow (ví dụ: username GitHub của bạn).
-        TWINE_USERNAME: BinNguyen2522 
+        TWINE_USERNAME: ${{ github.actor }} 
 
         # TWINE_PASSWORD: Mật khẩu hoặc token để xác thực.
         # ${{ secrets.GITHUB_TOKEN }} là một token đặc biệt được GitHub Actions cung cấp.
         # Token này có các quyền đã được định nghĩa trong mục 'permissions' của job (ở đây là 'packages: write').
-        TWINE_PASSWORD: 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
+        TWINE_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
 
         # TWINE_REPOSITORY_URL: URL của package registry trên GitHub Packages.
         # <span class="math-inline">{{ github.repository_owner }} là biến môi trường chứa tên user hoặc organization
         # sở hữu repository này (ví dụ: 'BinNguyen2522').
-        TWINE_REPOSITORY_URL: https://pypi.pkg.github.com/BinNguyen2522
+        TWINE_REPOSITORY_URL: https://pypi.pkg.github.com/${{ github.repository_owner }}
         # Chạy lệnh 'twine upload'
-        run: |
-          # Upload tất cả các file trong thư mục 'dist/' lên GitHub Packages.
-          # --non-interactive: Đảm bảo lệnh không dừng lại để yêu cầu nhập liệu tương tác.
-          twine upload --non-interactive dist/*
+      run: |
+        # Upload tất cả các file trong thư mục 'dist/' lên GitHub Packages.
+        # --non-interactive: Đảm bảo lệnh không dừng lại để yêu cầu nhập liệu tương tác.
+        twine upload --non-interactive dist/*
