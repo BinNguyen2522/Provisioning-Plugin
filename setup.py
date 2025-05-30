@@ -13,7 +13,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     keywords="inventree provisioning imei",
-    # url="https://github.com/yourusername/inventree-provisioning-plugin",
+    url="https://github.com/BinNguyen2522/Provisioning-Plugin",
     license="MIT",
     packages=setuptools.find_packages(),
     install_requires=[

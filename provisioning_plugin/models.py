@@ -11,7 +11,7 @@ class PartProvisioningData(models.Model):
     This creates a one-to-one link to the Part model.
     """
     class ProvisioningStatus(models.TextChoices):
-        NOT_STARTED = 'not_started', _('Not Started')
+        START = 'start', _('Start')
         SUCCESS = 'success', _('Success')
         FAILED = 'failed', _('Failed')
 
@@ -25,7 +25,7 @@ class PartProvisioningData(models.Model):
     provisioning_status = models.CharField(
         max_length=20,
         choices=ProvisioningStatus.choices,
-        default=ProvisioningStatus.NOT_STARTED,
+        default=None,
         verbose_name=_('Provisioning Status'),
         help_text=_('Status of the provisioning process for this part type or template')
     )
@@ -55,8 +55,7 @@ class ProvisioningLog(models.Model):
     Model to log provisioning attempts for a StockItem.
     """
     class LogStatus(models.TextChoices):
-        NOT_STARTED = 'not_started', _('Not Started')  # Có thể không cần nếu log chỉ tạo khi có action
-        PENDING = 'pending', _('Pending')
+        START = 'start', _('Start')  # Có thể không cần nếu log chỉ tạo khi có action
         SUCCESS = 'success', _('Success')
         FAILED = 'failed', _('Failed')
 
@@ -70,7 +69,7 @@ class ProvisioningLog(models.Model):
     status = models.CharField(
         max_length=20,
         choices=LogStatus.choices,
-        default=LogStatus.PENDING,
+        default=None,
         verbose_name=_('Status')
     )
 

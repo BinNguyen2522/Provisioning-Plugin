@@ -9,7 +9,10 @@ inventree_provisioning_plugin.egg-info/top_level.txt
 provisioning_plugin/ProvisioningPlugin.py
 provisioning_plugin/__init__.py
 provisioning_plugin/admin.py
+provisioning_plugin/api.py
 provisioning_plugin/apps.py
 provisioning_plugin/models.py
+provisioning_plugin/serializers.py
 provisioning_plugin/version.py
+provisioning_plugin/migrations/0001_initial.py
 provisioning_plugin/migrations/__init__.py

@@ -2,6 +2,7 @@ Metadata-Version: 2.4
 Name: inventree-provisioning-plugin
 Version: 0.1.0
 Summary: Plugin to add provisioning status and IMEI to Parts, and a provisioning log.
+Home-page: https://github.com/BinNguyen2522/Provisioning-Plugin
 Author: Bin
 Author-email: bin.nguyen@digitalfortress.dev
 License: MIT
@@ -12,6 +13,7 @@ Dynamic: author
 Dynamic: author-email
 Dynamic: description
 Dynamic: description-content-type
+Dynamic: home-page
 Dynamic: keywords
 Dynamic: license
 Dynamic: requires-python

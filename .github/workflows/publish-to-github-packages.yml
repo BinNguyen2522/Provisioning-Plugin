@@ -1,0 +1,70 @@
+# Tên của workflow, sẽ hiển thị trên tab "Actions" của repository
+name: Publish Python Package to GitHub Packages
+
+# Định nghĩa các sự kiện sẽ kích hoạt workflow này
+on:
+  release: # Kích hoạt khi có sự kiện liên quan đến "Release"
+    types: [published] # Chỉ chạy khi một release được "publish" (không phải "created" hoặc "prereleased")
+    # Bạn cũng có thể kích hoạt workflow thủ công từ tab Actions nếu thêm:
+    # workflow_dispatch:
+
+# Định nghĩa các jobs sẽ chạy trong workflow
+jobs:
+  deploy: # Tên của job (bạn có thể đặt tên khác, ví dụ: publish, build-and-publish)
+    # Môi trường chạy job: sử dụng máy ảo Ubuntu mới nhất được cung cấp bởi GitHub Actions
+    runs-on: ubuntu-latest
+
+    # Cấp quyền cho GITHUB_TOKEN được sử dụng trong job này.
+    # GITHUB_TOKEN là một token đặc biệt được GitHub Actions cung cấp tự động.
+    permissions:
+      contents: read  # Cần quyền đọc nội dung repository để action 'checkout' có thể lấy mã nguồn.
+      packages: write # Cần quyền ghi vào Packages để có thể publish package lên GitHub Packages.
+
+    # Các bước (steps) sẽ được thực thi tuần tự trong job 'deploy'
+    steps:
+    - name: Checkout repository # Tên của bước, hiển thị trong logs của Action
+      # Sử dụng action 'actions/checkout' phiên bản 4 để tải mã nguồn của repository
+      # vào không gian làm việc (workspace) của máy ảo.
+      uses: actions/checkout@v4
+
+    - name: Set up Python # Tên của bước
+      # Sử dụng action 'actions/setup-python' phiên bản 5 để cài đặt môi trường Python.
+      uses: actions/setup-python@v5
+      with:
+        # Chỉ định phiên bản Python. '3.x' sẽ chọn phiên bản ổn định mới nhất của Python 3.
+        # Bạn có thể chỉ định phiên bản cụ thể hơn nếu cần, ví dụ: '3.10'.
+        python-version: '3.x' 
+
+    - name: Install dependencies for build # Tên của bước
+      # Chạy các lệnh shell để cài đặt các công cụ cần thiết.
+      run: |
+        python -m pip install --upgrade pip # Nâng cấp pip lên phiên bản mới nhất
+        pip install build twine             # Cài đặt 'build' (để build package) và 'twine' (để upload package)
+
+    - name: Build package # Tên của bước
+      # Chạy lệnh build package. Lệnh này sẽ thực thi file setup.py của bạn
+      # và tạo ra các file phân phối (thường là .whl và .tar.gz) trong thư mục 'dist/'.
+      run: python -m build 
+
+    - name: Publish package to GitHub Packages # Tên của bước
+      # Thiết lập các biến môi trường cần thiết cho 'twine' để upload package.
+      env:
+        # TWINE_USERNAME: Tên người dùng để xác thực với package registry.
+        # ${{ github.actor }} là biến môi trường của GitHub Actions, chứa tên người dùng
+        # hoặc tên bot đã kích hoạt workflow (ví dụ: username GitHub của bạn).
+        TWINE_USERNAME: BinNguyen2522 
+
+        # TWINE_PASSWORD: Mật khẩu hoặc token để xác thực.
+        # ${{ secrets.GITHUB_TOKEN }} là một token đặc biệt được GitHub Actions cung cấp.
+        # Token này có các quyền đã được định nghĩa trong mục 'permissions' của job (ở đây là 'packages: write').
+        TWINE_PASSWORD: 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
+
+        # TWINE_REPOSITORY_URL: URL của package registry trên GitHub Packages.
+        # <span class="math-inline">{{ github.repository_owner }} là biến môi trường chứa tên user hoặc organization
+        # sở hữu repository này (ví dụ: 'BinNguyen2522').
+        TWINE_REPOSITORY_URL: https://pypi.pkg.github.com/BinNguyen2522
+        # Chạy lệnh 'twine upload'
+        run: |
+          # Upload tất cả các file trong thư mục 'dist/' lên GitHub Packages.
+          # --non-interactive: Đảm bảo lệnh không dừng lại để yêu cầu nhập liệu tương tác.
+          twine upload --non-interactive dist/*
